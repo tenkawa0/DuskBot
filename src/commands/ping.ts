@@ -9,7 +9,7 @@ createCommand({
   execute: function (message) {
     sendMessage(
       message.channelID,
-      `Ping MS: ${Date.now() - message.timestamp}ms`,
+      `Ping MS: ${Date.now() - message.timestamp}ms`
     );
   },
 });
@@ -25,9 +25,9 @@ createCommand({
 
     sendMessage(
       message.channelID,
-      `Ping MS: ${Date.now() -
-        message
-          .timestamp}ms | Guilds: ${cache.guilds.size} | Users: ${memberCount}`,
+      `Ping MS: ${Date.now() - message.timestamp}ms | Guilds: ${
+        cache.guilds.size
+      } | Users: ${memberCount}`
     );
   },
 });

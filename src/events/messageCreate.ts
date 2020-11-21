@@ -19,9 +19,7 @@ botCache.eventHandlers.messageCreate = async function (message) {
     const channel = cache.channels.get(message.channelID);
     if (!channel) return;
 
-    if (
-      monitor.ignoreDM !== false && channel.type === ChannelTypes.DM
-    ) {
+    if (monitor.ignoreDM !== false && channel.type === ChannelTypes.DM) {
       return;
     }
 
@@ -47,12 +45,11 @@ botCache.eventHandlers.messageCreate = async function (message) {
     // Check if the message author has the necessary channel permissions to run this monitor
     if (
       monitor.userChannelPermissions &&
-      monitor.userChannelPermissions.some((perm) =>
-        !hasChannelPermissions(
-          message.channelID,
-          message.author.id,
-          [Permissions[perm]],
-        )
+      monitor.userChannelPermissions.some(
+        (perm) =>
+          !hasChannelPermissions(message.channelID, message.author.id, [
+            Permissions[perm],
+          ])
       )
     ) {
       return;
@@ -65,7 +62,7 @@ botCache.eventHandlers.messageCreate = async function (message) {
         message.author.id,
         guild,
         message.member?.roles || [],
-        monitor.userServerPermissions,
+        monitor.userServerPermissions
       )
     ) {
       return;
@@ -74,12 +71,11 @@ botCache.eventHandlers.messageCreate = async function (message) {
     // Check if the bot has the necessary channel permissions to run this monitor in this channel.
     if (
       monitor.botChannelPermissions &&
-      monitor.botChannelPermissions.some((perm) =>
-        !hasChannelPermissions(
-          message.channelID,
-          message.author.id,
-          [Permissions[perm]],
-        )
+      monitor.botChannelPermissions.some(
+        (perm) =>
+          !hasChannelPermissions(message.channelID, message.author.id, [
+            Permissions[perm],
+          ])
       )
     ) {
       return;
@@ -88,11 +84,8 @@ botCache.eventHandlers.messageCreate = async function (message) {
     // Check if the bot has the necessary permissions to run this monitor
     if (
       monitor.botServerPermissions &&
-      monitor.botServerPermissions.some((perm) =>
-        !botHasPermission(
-          guild.id,
-          [Permissions[perm]],
-        )
+      monitor.botServerPermissions.some(
+        (perm) => !botHasPermission(guild.id, [Permissions[perm]])
       )
     ) {
       return;

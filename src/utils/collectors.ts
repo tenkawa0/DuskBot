@@ -4,15 +4,20 @@ import {
   CollectMessagesOptions,
   CollectReactionsOptions,
 } from "../types/collectors.ts";
-import { botCache, botID, Message,
+import {
+  botCache,
+  botID,
+  Message,
   MessageReactionUncachedPayload,
-  ReactionPayload, } from "../../deps.ts";
+  ReactionPayload,
+  editMessage,
+} from "../../deps.ts";
 import { Milliseconds } from "./constants/time.ts";
 
 export async function needMessage(
   memberID: string,
   channelID: string,
-  options?: MessageCollectorOptions,
+  options?: MessageCollectorOptions
 ) {
   const [message] = await collectMessages({
     key: memberID,
@@ -27,7 +32,7 @@ export async function needMessage(
 }
 
 export async function collectMessages(
-  options: CollectMessagesOptions,
+  options: CollectMessagesOptions
 ): Promise<Message[]> {
   return new Promise((resolve, reject) => {
     botCache.messageCollectors.set(options.key, {
@@ -42,7 +47,7 @@ export async function collectMessages(
 export async function needReaction(
   memberID: string,
   messageID: string,
-  options?: ReactionCollectorOptions,
+  options?: ReactionCollectorOptions
 ) {
   const [reaction] = await collectReactions({
     key: memberID,
@@ -57,7 +62,7 @@ export async function needReaction(
 }
 
 export async function collectReactions(
-  options: CollectReactionsOptions,
+  options: CollectReactionsOptions
 ): Promise<string[]> {
   return new Promise((resolve, reject) => {
     botCache.reactionCollectors.set(options.key, {
@@ -72,7 +77,7 @@ export async function collectReactions(
 export function processReactionCollectors(
   message: Message | MessageReactionUncachedPayload,
   emoji: ReactionPayload,
-  userID: string,
+  userID: string
 ) {
   // Ignore bot reactions
   if (userID === botID) return;
@@ -84,7 +89,7 @@ export function processReactionCollectors(
   if (!collector) return;
 
   // This user has no collectors pending or the message is in a different channel
-  if (!collector || (message.id !== collector.messageID)) return;
+  if (!collector || message.id !== collector.messageID) return;
   // This message is a response to a collector. Now running the filter function.
   if (!collector.filter(userID, emojiName, message)) return;
 

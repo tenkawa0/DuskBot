@@ -21,7 +21,7 @@ createCommand({
     const embed = new Embed()
       .setAuthor(
         `${botMember?.nick || botMember?.tag} Stats`,
-        botMember.avatarURL,
+        botMember.avatarURL
       )
       .setColor("random")
       .addField("Guilds:", cache.guilds.size.toLocaleString(), true)
